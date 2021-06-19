@@ -1,0 +1,110 @@
+﻿version: '3.0'
+services:
+  test:
+    build: ./test
+    links:
+        - service
+  service:
+    build: ./service
+    environment:
+        port: 80
+# Feel free to add any or all of these services into your cluster as you may wish
+#
+#  elasticsearch:
+#    image: elasticsearch:7.5.2
+#    cap_add:
+#      - IPC_LOCK
+#    environment:
+#      AUTO_CREATE_INDEX: ""
+#      AWS_ACCESS_KEY: "NA"
+#      AWS_SECRET_KEY: "NA"
+#      DISCOVERY_TYPE: "zen"
+#      ES_DATA_PATH: "/elasticsearch/user-data"
+#      ES_JAVA_OPTS: "-Xms2g -Xmx2g"
+#      HTTP_ENABLE: "true"
+#      NETWORK_HOST: "0.0.0.0"
+#      NAMESPACE: "default"
+#      NODE_DATA: "true"
+#      NODE_MASTER: "true"
+#      NUMBER_OF_MASTERS: 1
+#      SERVICE: "elasticsearch"
+#      XPACK_SECURITY: "false"
+#    mem_limit: 4g
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#      nofile:
+#        soft: 65536
+#        hard: 65536
+#    ports:
+#      - 9200:9200
+#    volumes:
+#      - elasticsearch:/elasticsearch/user-data:rw
+#      - ./elastic.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#
+#  kafka:
+#    image: amplifymedia/kafka:2017020301
+#    ports:
+#      - 9092:9092
+#      - 9998:9998
+#      - 9999:9999
+#    environment:
+#      KAFKA_BROKER_ID: 1
+#      ADVERTISED_LISTENERS: "kafka:9092"
+#      KAFKA_ADVERTISED_HOST_NAME: kafka
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      JMX_PORT: "9999"
+#      KAFKA_HEAP_OPTS: "-Xmx1G -Xms1G -Djava.rmi.server.hostname=kafka -Djava.net.preferIPv4Stack=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.rmi.port=9998"
+#    links:
+#      - zookeeper
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#
+#
+#  kibana:
+#    image: kibana:7.5.2
+#    environment:
+#      LOCATION: kibana
+#      LOCATION_ALIAS: kibana/
+#      VIRTUAL_PORT: 5601
+#    ports:
+#      - 5601:5601
+#    links:
+#      - elasticsearch
+#    depends_on:
+#      - elasticsearch
+#    volumes:
+#      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+#
+#  redis:
+#    hostname: redis
+#    image: bitnami/redis
+#    ports:
+#      - 6379:6379
+#    environment:
+#      ALLOW_EMPTY_PASSWORD: "yes"
+#
+#  wilder-nginx:
+#    image: jwilder/nginx-proxy
+#    ports:
+#      - 80:80
+#      - 443:443
+#    environment:
+#      ORIGIN_DOMAIN: localhost
+#    volumes:
+#      - /var/run/docker.sock:/tmp/docker.sock
+#      - ./nginx.tmpl:/app/nginx.tmpl
+#      - ./ssl/server.crt:/etc/nginx/certificates/server.crt
+#      - ./ssl/server.key:/etc/nginx/certificates/server.key
+#
+#  zookeeper:
+#    image: wurstmeister/zookeeper
+#    ports:
+#      - 2181:2181
+#    environment:
+#      SERVER_JVMFLAGS: "-Xms512m -Xmx1024m"
+#
+#volumes:
+#  elasticsearch:
+#    driver: local
