@@ -142,7 +142,7 @@ docker-compose up service
 
 Currently the service is simply the starting docker hello-world image, thus causing the four test to fail.
 
-Your project is to build a service in the './service' directory, configure the Dockerfile to initialize your application on port 80 such that the test docker container can successfully connect to it and valdiate the output of the API.
+Your project is to build a service in the './service' directory, configure the Dockerfile to initialize your application on port 80 such that the test docker container can successfully connect to it and validate the output of the API.
 
 Please do not spend more than 4 hours on this project. It's okay to not finish the project in within 4 hours, in which case plan on coming to the presentation prepared to share what you would have done to complete the project.
 
