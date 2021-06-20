@@ -1,4 +1,5 @@
 const express = require('express');
+const data = require('./data.json');
 
 const app = express();
 const port = 80;
@@ -9,7 +10,37 @@ app.listen(port, () => {
 
 app.get('/service/suggest/tracks', (req, res) => {
   const prefix = req.query.prefix;
-  res.send(`Prefix query param for suggesting tracks was ${prefix}`);
+  const allDiscography = data.releases;
+  const prefixRegex = new RegExp(`^${prefix}`, 'i');
+  const suggestions = [];
+
+  for (const release of allDiscography) {
+    for (const track of release.TrackList) {
+      const trackTitle = track.Title;
+      if (prefixRegex.test(trackTitle)) {
+        const newSuggestion = { 
+          title: trackTitle,
+          duration: track.Duration,
+          release: {
+            id: release.Id,
+            title: release.Title,
+            notes: release.Notes,
+          }
+        };
+        suggestions.push(newSuggestion);
+        if (suggestions.length === 5) {
+          break;
+        }
+      }
+    }
+    if (suggestions.length === 5) {
+      break;
+    }
+  }
+
+  res.json({
+    suggestions,
+  });
 });
 
 app.get('/service/suggest/artists', (req, res) => {
