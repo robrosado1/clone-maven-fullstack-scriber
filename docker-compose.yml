@@ -6,8 +6,8 @@ services:
         - service
   service:
     build: ./service
-    environment:
-        port: 80
+    ports: 
+      - '80:80'
 # Feel free to add any or all of these services into your cluster as you may wish
 #
 #  elasticsearch:
