@@ -93,7 +93,29 @@ app.get('/service/suggest/artists', (req, res) => {
 
 app.get('/service/suggest/releases', (req, res) => {
   const prefix = req.query.prefix;
-  res.send(`Prefix query param for suggesting releases was ${prefix}`);
+  const allDiscography = data.releases;
+  const prefixRegex = new RegExp(`^${prefix}`, 'i');
+  const suggestions = [];
+
+  for (const release of allDiscography) {
+    const releaseTitle = release.Title;
+    if (prefixRegex.test(releaseTitle)) {
+      const newSuggestion = { 
+        id: release.Id,
+        title: releaseTitle,
+        notes: release.Notes,
+        artist: release.Artists.map(artist => ({ id: artist.Id, name: artist.Name })),
+      };
+      suggestions.push(newSuggestion);
+      if (suggestions.length === 5) {
+        break;
+      }
+    }
+  }
+
+  res.json({
+    suggestions,
+  });
 });
 
 app.get('/service/suggest/all', (req, res) => {
